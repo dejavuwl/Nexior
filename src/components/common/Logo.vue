@@ -19,6 +19,12 @@ import logoMark from '@/assets/images/logos/acedata-mark.png';
 import logoWordmarkMask from '@/assets/images/logos/acedata-wordmark-mask.png';
 import { defineComponent } from 'vue';
 
+const LEGACY_ACEDATA_FAVICON = 'https://platform.acedata.cloud/favicon.ico';
+const ACEDATA_MARK = 'https://platform.acedata.cloud/assets/acedata-mark-l2r40Kh8.png';
+
+const normalizeBrandAssetUrl = (url: string): string =>
+  url === LEGACY_ACEDATA_FAVICON ? ACEDATA_MARK : url;
+
 export default defineComponent({
   props: {
     collapsed: {
@@ -39,16 +45,16 @@ export default defineComponent({
     tenantLogoLight(): string {
       const site = this.$store.state.site;
       if (this.collapsed) {
-        return site?.favicon || site?.logo || '';
+        return normalizeBrandAssetUrl(site?.favicon || site?.logo || '');
       }
-      return site?.logo_light || site?.logo || site?.favicon || '';
+      return normalizeBrandAssetUrl(site?.logo_light || site?.logo || site?.favicon || '');
     },
     tenantLogoDark(): string {
       const site = this.$store.state.site;
       if (this.collapsed) {
         return this.tenantLogoLight;
       }
-      return site?.logo_dark || this.tenantLogoLight;
+      return normalizeBrandAssetUrl(site?.logo_dark || this.tenantLogoLight);
     },
     wordmarkStyle() {
       return { '--logo-wordmark-mask': `url(${logoWordmarkMask})` };
