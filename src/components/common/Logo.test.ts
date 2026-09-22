@@ -40,6 +40,18 @@ describe('Logo Site branding', () => {
     expect(collapsed.get('.brand-logo__image--light').attributes('src')).toContain('favicon.png');
   });
 
+  it('upgrades the legacy AceData favicon used as a header logo', () => {
+    const wrapper = mountLogo({
+      title: 'Ace Data Cloud',
+      logo: 'https://platform.acedata.cloud/favicon.ico',
+      logo_dark: 'https://platform.acedata.cloud/favicon.ico'
+    });
+
+    const expected = 'https://platform.acedata.cloud/assets/acedata-mark-l2r40Kh8.png';
+    expect(wrapper.get('.brand-logo__image--light').attributes('src')).toBe(expected);
+    expect(wrapper.get('.brand-logo__image--dark').attributes('src')).toBe(expected);
+  });
+
   it('renders separate light and dark tenant logo variants', () => {
     const wrapper = mountLogo({
       logo: 'https://cdn.example.com/color.png',
